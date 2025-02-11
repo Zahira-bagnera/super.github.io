@@ -18,25 +18,20 @@
         document.addEventListener("DOMContentLoaded", function() {
             var audio = document.getElementById("bg-music");
 
-            // Intenta reproducir automáticamente
             var playAudio = function() {
                 audio.play().catch(error => console.log("Autoplay bloqueado: ", error));
-                document.removeEventListener("click", playAudio);
-                document.removeEventListener("scroll", playAudio);
             };
 
-            // Simular un clic automático después de 1 segundo
-            setTimeout(() => {
-                var event = new MouseEvent("click", { bubbles: true, cancelable: true });
-                document.dispatchEvent(event);
-            }, 1000);
-
-            audio.volume = 0.5; // Ajusta el volumen
-            audio.load();
-            audio.play().catch(() => {
-                document.addEventListener("click", playAudio); // Activa con clic
-                document.addEventListener("scroll", playAudio); // Activa con scroll
+            // Si Google Sites bloquea el autoplay, lo activamos con scroll o clic
+            window.addEventListener("message", function(event) {
+                if (event.data === "scroll_detected") {
+                    playAudio();
+                }
             });
+
+            // También escuchar clics o scrolls dentro del iframe
+            document.addEventListener("click", playAudio);
+            document.addEventListener("scroll", playAudio);
         });
     </script>
 
