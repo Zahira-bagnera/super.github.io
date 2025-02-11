@@ -9,28 +9,36 @@
     </style>
 </head>
 <body>
+
     <audio id="bg-music" autoplay loop preload="auto">
         <source src="./Cancion.mp3" type="audio/mpeg">
     </audio>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var audio = document.getElementById("bg-music");
 
-        // Intentar reproducir automáticamente
-        var playAudio = function() {
-            audio.play().catch(error => console.log("Autoplay bloqueado: ", error));
-            document.removeEventListener("click", playAudio);
-            document.removeEventListener("scroll", playAudio);
-        };
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var audio = document.getElementById("bg-music");
 
-        audio.volume = 0.5; // Ajusta el volumen
-        audio.load();
-        audio.play().catch(() => {
-            document.addEventListener("click", playAudio); // Activa con clic
-            document.addEventListener("scroll", playAudio); // Activa con scroll
+            // Intenta reproducir automáticamente
+            var playAudio = function() {
+                audio.play().catch(error => console.log("Autoplay bloqueado: ", error));
+                document.removeEventListener("click", playAudio);
+                document.removeEventListener("scroll", playAudio);
+            };
+
+            // Simular un clic automático después de 1 segundo
+            setTimeout(() => {
+                var event = new MouseEvent("click", { bubbles: true, cancelable: true });
+                document.dispatchEvent(event);
+            }, 1000);
+
+            audio.volume = 0.5; // Ajusta el volumen
+            audio.load();
+            audio.play().catch(() => {
+                document.addEventListener("click", playAudio); // Activa con clic
+                document.addEventListener("scroll", playAudio); // Activa con scroll
+            });
         });
-    });
-</script>
+    </script>
 
 </body>
 </html>
