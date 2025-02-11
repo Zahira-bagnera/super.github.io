@@ -22,7 +22,7 @@
                 audio.play().catch(error => console.log("Autoplay bloqueado: ", error));
             };
 
-            // Escucha mensajes de Google Sites
+            // Escuchar mensajes de Google Sites
             window.addEventListener("message", function(event) {
                 if (event.data === "play_music") {
                     playAudio();
