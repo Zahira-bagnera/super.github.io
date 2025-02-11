@@ -9,27 +9,28 @@
     </style>
 </head>
 <body>
-
     <audio id="bg-music" autoplay loop preload="auto">
         <source src="./Cancion.mp3" type="audio/mpeg">
     </audio>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var audio = document.getElementById("bg-music");
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var audio = document.getElementById("bg-music");
+        // Intentar reproducir automáticamente
+        var playAudio = function() {
+            audio.play().catch(error => console.log("Autoplay bloqueado: ", error));
+            document.removeEventListener("click", playAudio);
+            document.removeEventListener("scroll", playAudio);
+        };
 
-            var playAudio = function() {
-                audio.play().catch(error => console.log("Autoplay bloqueado: ", error));
-            };
-
-            // Escuchar mensajes de Google Sites
-            window.addEventListener("message", function(event) {
-                if (event.data === "play_music") {
-                    playAudio();
-                }
-            });
+        audio.volume = 0.5; // Ajusta el volumen
+        audio.load();
+        audio.play().catch(() => {
+            document.addEventListener("click", playAudio); // Activa con clic
+            document.addEventListener("scroll", playAudio); // Activa con scroll
         });
-    </script>
+    });
+</script>
 
 </body>
 </html>
